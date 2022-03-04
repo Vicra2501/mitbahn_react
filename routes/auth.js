@@ -91,7 +91,16 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 // 	res.status(400).json({ message: 'err' })
 // });
 
-//USERPROFILEUPDATE
+//USERPROFILEEDIT
+
+//=====> change to if (email found in db){ err msg "mailadress already in use"}
+// User.findOne({ email })
+// 		.then(foundUser => {
+// 			// if the user already exists send an error
+// 			if (foundUser) {
+// 				res.status(400).json({ message: 'User already exists' })
+// 				return
+// 			}
 
 
 router.post("/userprofileedit", (req, res, next) => {
@@ -99,19 +108,28 @@ router.post("/userprofileedit", (req, res, next) => {
    
   console.log(req.body)
   
-  User.findByIdAndUpdate(req.user._id, { name, email, password}, {new: true} )
+  User.findByIdAndUpdate(req.body.id, { name, email, password}, {new: true} )
   // User.findByIdAndUpdate(req.session.user, { lastName: req.body.lastName}, {firstName: req.body.firstName}, {email:req.body.email })
   .then((user) => {
-  console.log('gets updated')
-  req.user
-  
-  res.redirect('/auth/userprofile')
+  console.log('gets updated')  
+//   res.redirect('/auth/userprofile')
   })
   .catch(err => { 
 	next(err);
   })
   })
 
+  // DELETE
+router.get('/delete', (req, res, next) => {
+	console.log('tried to delete User')
+	//later feature delete groups owned by this user as well
+	User.findByIdAndDelete(req.session.user).then(()=>{
+	  //destroy session and delete database entry
+	  req.session.destroy()
+	  res.redirect('/auth/signup')
+	})
+  });
+  //____________________________________
 
 
 

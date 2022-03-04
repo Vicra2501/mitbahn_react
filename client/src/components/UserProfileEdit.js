@@ -12,7 +12,8 @@ export default function UserProfileEdit() {
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState(user.password);
-
+    const id = user._id
+    
     // useEffect(() => {
     //     axios.post(`/api/user/${user._id}
     // `, { headers: { Authorization: `Bearer ${storedToken}` } })
@@ -23,11 +24,10 @@ export default function UserProfileEdit() {
     // }, [])
 
     const navigate = useNavigate()
-
     const handleSubmit = e => {
         e.preventDefault()
-        const requestBody = { name, email, password }
-        axios.post('/api/auth/userprofilupdate', requestBody)
+        const requestBody = { id, name, email, password }
+        axios.post('/api/auth/userprofileedit', requestBody)
             .then(response => {
                 navigate('/login')
             })
@@ -37,7 +37,7 @@ export default function UserProfileEdit() {
             })
     }
 
-
+    
     const handleEmail = e => setEmail(e.target.value)
     const handleName = e => setName(e.target.value)
     const handlePassword = e => setPassword(e.target.value)
@@ -45,9 +45,11 @@ export default function UserProfileEdit() {
 
     return (
         <>
-            <form action="/userprofileedit" methode='POST' onSubmit={handleSubmit}>
+            <form  onSubmit={handleSubmit}>
                 <div>User Profile of {user.name}
                     {console.log(user)}
+                    {/* {console.log(id)}
+                    {console.log(user._id)} */}
                 </div>
 
                 <label>Name:</label>
@@ -55,22 +57,22 @@ export default function UserProfileEdit() {
                 <label>Email:</label>
                 <input type='email' placeholder={email} email='email' value={email} onChange={handleEmail} />
                 <label>Password:</label>
-                <input type='password' placeholder={"********"} name='Password' value={password} onChange={handlePassword}/>
+                <input type='password' placeholder={"********"} name='Password' value={password} onChange={handlePassword} />
                 <br></br>
                 <button type='submit'>Update Profile</button>
-                
-                <div id='delete-button'>
-                <button id='profile.delete'>Delete Profile</button>
-                </div>
+                {errorMessage && <h5>{errorMessage}</h5>}
             </form>
+            <form>
+                <div id='delete-button'>
+                    <button id='profile.delete' href='/routes/auth/delete'>Delete Profile</button>
+                </div>
 
-            {errorMessage && <h5>{errorMessage}</h5>}
-            {/* <button onClick={() => deleteUser(user._id)} className="btn-delete"> */}
+        </form>
+                {/* <button onClick={() => deleteUser(user._id)} className="btn-delete"> */}
 
-            {/* Delete 
+                {/* Delete 
 
             </button> */}
-        </>
-
+            </>
     )
 }
