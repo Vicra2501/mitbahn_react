@@ -6,9 +6,9 @@ import {AuthContext} from '../context/auth'
 export default function UserProfile() {
 
   const storedToken = localStorage.getItem('authToken')
-  const [user, setUser] = useState(null) 
-  const { isLoggedIn, logoutUser } = useContext(AuthContext)
-  // const id = user.id
+  const [setUser] = useState(null) 
+  const { isLoggedIn, logoutUser, user } = useContext(AuthContext)
+  const id = user.id
 	
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function UserProfile() {
     , { headers: { Authorization: `Bearer ${storedToken}` } })
 			.then(response => {
 				console.log(response)
-				// setUser(response.data)
+				 //setUser(response.data)
 			})
 			.catch(err => console.log(err))
   }, [])

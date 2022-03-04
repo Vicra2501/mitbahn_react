@@ -91,6 +91,9 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 // 	res.status(400).json({ message: 'err' })
 // });
 
+//USERPROFILEUPDATE
+
+
 router.post("/userprofileedit", (req, res, next) => {
 	const {name, email, password}  = req.body;
    
@@ -100,7 +103,7 @@ router.post("/userprofileedit", (req, res, next) => {
   // User.findByIdAndUpdate(req.session.user, { lastName: req.body.lastName}, {firstName: req.body.firstName}, {email:req.body.email })
   .then((user) => {
   console.log('gets updated')
-  req.session.user = user
+  req.user
   
   res.redirect('/auth/userprofile')
   })
