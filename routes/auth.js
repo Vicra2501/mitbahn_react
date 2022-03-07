@@ -6,6 +6,7 @@ const { isAuthenticated } = require("../middleware/jwt");
 
 // const { user } = require('../client/src/context/auth')
 
+// SIGNUP
 router.post('/signup', (req, res, next) => {
 	const { email, password, name } = req.body
 	// check if email or name or password are empty
@@ -48,6 +49,7 @@ router.post('/signup', (req, res, next) => {
 		})
 });
 
+// LOGIN
 router.post('/login', (req, res, next) => {
 	const { email, password } = req.body
 	if (email === '' || password === '') {
@@ -91,7 +93,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 // 	res.status(400).json({ message: 'err' })
 // });
 
-//USERPROFILEEDIT
+
 
 //=====> change to if (email found in db){ err msg "mailadress already in use"}
 // User.findOne({ email })
@@ -102,7 +104,7 @@ router.get('/verify', isAuthenticated, (req, res, next) => {
 // 				return
 // 			}
 
-
+// UPDATE PROFILE
 router.post("/userprofileedit", (req, res, next) => {
 	const {name, email, password}  = req.body;
    
@@ -112,7 +114,7 @@ router.post("/userprofileedit", (req, res, next) => {
   // User.findByIdAndUpdate(req.session.user, { lastName: req.body.lastName}, {firstName: req.body.firstName}, {email:req.body.email })
   .then((user) => {
   console.log('gets updated')  
-//   res.redirect('/auth/userprofile')
+  res.render('./userprofile')
   })
   .catch(err => { 
 	next(err);
